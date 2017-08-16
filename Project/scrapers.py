@@ -1,25 +1,35 @@
 
 class WebScrapers(object):
-    # The webscrapers.  The class takes in a BeautifulSoup object and parses it appropriately. # noqa
+    # The webscrapers.  The class takes in a BeautifulSoup object and parses it appropriately. 
 
     def __init__(self, url):
         # Create the object around the specific URL
         self.url = url
 
     def OpenWebsite(self):
-        # Connect to the url, download the html, and convert it into a BeautifulSoup object # noqa
+        # Connect to the url, download the html, and convert it into a BeautifulSoup object 
         from urllib.request import urlopen
         from urllib.error import HTTPError
+        import socket
         from bs4 import BeautifulSoup
 
         # Connect to URL and extract HTML, with error catching
         try:
             html = urlopen(self.url)
-        except HTTPError:
-            print('>>> Error 404: cannot be accessed!\n')
+        except HTTPError as err:
+            print('Error 404: cannot be accessed!')
             raise
         except socket.timeout:
-            print(" ".join(("can't access", self.url, "due to connection timeout!"))) # noqa
+            print(" ".join(("can't access", self.url,
+                            "due to connection timeout!"))) 
+            raise
+        except AttributeError as err:
+            print('Input format or other error: ' + str(err))
+            raise
+        except ValueError as err:
+            print('Value error: ' + str(err))
+        except UnboundLocalError as err:
+            print('Other error: ' + str(err))
             raise
 
         # Convert the html into a BeautifulSoup object, with error catching
@@ -36,14 +46,16 @@ class WebScrapers(object):
         # from bs4 import BeautifulSoup
 
         # Extract all articles
-        articleList = bsObj.findAll({'h1', 'h2', 'h3', 'h4'}, {'class': 'story-heading'}) # noqa
+        articleList = bsObj.findAll({'h1', 'h2', 'h3', 'h4'},
+                                    {'class': 'story-heading'}) 
 
         # Create a set of just the article headlines
         headline = set()
         for article in articleList:
             headline.add(article.get_text().strip())
 
-        return {'site': 'NYTimes', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} # noqa
+        return {'site': 'NYTimes', 'scrapetime': datetime.datetime.now(),
+                'headlines': list(headline)} 
 
     def FOXParse(self, bsObj):
         # Parse the Fox News website
@@ -60,7 +72,7 @@ class WebScrapers(object):
             if len(str(article)) >= 100:
                 headline.add(article.get_text().strip())
 
-        return {'site': 'Fox News', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} # noqa
+        return {'site': 'Fox News', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} 
 
     def CNNParse(self, bsObj):
         # Parse the MSNBC website
@@ -84,7 +96,7 @@ class WebScrapers(object):
 
             headline.add(article.get_text().strip())
 
-        return {'site':'CNN', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} # noqa
+        return {'site':'CNN', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} 
 
     def MSNBCParse(self, bsObj):
         # Parse the MSNBC website
@@ -105,7 +117,7 @@ class WebScrapers(object):
 
             headline.add(article.get_text().strip())
 
-        return {'site': 'MSNBC', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} # noqa
+        return {'site': 'MSNBC', 'scrapetime': datetime.datetime.now(), 'headlines': list(headline)} 
 
 # test = OpenWebsite('http://www.nytimes.com')
 
