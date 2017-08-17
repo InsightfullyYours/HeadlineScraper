@@ -1,9 +1,14 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sun Aug 13 20:22:36 2017
-
-@author: The Computer
-"""
+This file is for utilities used by the database scraper program.
+The utilities include:
+    ConnectToDB: Takes a databaseURL, creates the connection, and connects.
+        Returns the database client
+    InitializeDB: Initialize the DB connection object for pushing and pulling
+        data.  Returns that object.
+    ExtractHeadlines: Takes the DB connection object and the search string,
+        searches the database for matching headlines.  Returns all matches
+        along with metadata.
+    """
 
 
 def ConnectToDB(DBurl):
@@ -13,9 +18,10 @@ def ConnectToDB(DBurl):
     import time
     import subprocess
 
-    maxSevSelDelay = 1
+    maxDelay = 1
     try:
-        client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay)
+        client = pymongo.MongoClient(DBurl,
+                                     serverSelectionTimeoutMS=maxDelay)
         client.server_info()
         return client
     except pymongo.errors.ServerSelectionTimeoutError as err:
@@ -26,18 +32,21 @@ def ConnectToDB(DBurl):
             print('Connection attempt number: ' + str(numAttempts) + '/5')
             try:
                 print('Attempting to reconnect to database...')
-                subprocess.run('"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe" --dbpath "C:\\Users\\The Computer\\Documents\\Mongodb\\data"',shell=True, timeout = 10)
+                subprocess.run('"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe" --dbpath "C:\\Users\\The Computer\\Documents\\Mongodb\\data"', shell=True, timeout=10) # noqa
             except subprocess.CalledProcessError as err:
                 print('Error starting MongoDB: ' + str(err))
 
             try:
                 time.sleep(5)
-                client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay)
+                client = pymongo.MongoClient(DBurl,
+                                             serverSelectionTimeoutMS=maxDelay)
                 client.server_info()
-                print('New connection opened successfully on attempt number ' + str(numAttempts) + '/5')
+                print('New connection opened successfully on attempt number ' +
+                      str(numAttempts) + '/5')
                 return client
             except pymongo.errors.ServerSelectionTimeoutError as err:
-                print('DB Connection Failure after ' + str(numAttempts) + '/5' + ' attempts.  Check the server URL.')
+                print('DB Connection Failure after ' + str(numAttempts) + '/5'
+                      + ' attempts.  Check the server URL.')
 
 
 def InitializeDB(client, dbname):
@@ -53,6 +62,7 @@ def ExtractHeadlines(collection, searchstring):
         count = 0
         for collectedheadlines in scrape['headlines']:
             if searchstring in collectedheadlines:
-                searchresult.append([scrape['headlines'][count], scrape['site'], scrape['scrapetime']])
+                searchresult.append([scrape['headlines'][count],
+                                     scrape['site'], scrape['scrapetime']])
             count = count + 1
     return searchresult
