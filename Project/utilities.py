@@ -15,7 +15,7 @@ def ConnectToDB(DBurl):
 
     maxSevSelDelay = 1
     try:
-        client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay) 
+        client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay)
         client.server_info()
         return client
     except pymongo.errors.ServerSelectionTimeoutError as err:
@@ -46,10 +46,10 @@ def InitializeDB(client, dbname):
     return db
 
 
-def ExtractHeadlines(DB, searchstring):
+def ExtractHeadlines(collection, searchstring):
     # Extract Data from the database
     searchresult = []
-    for scrape in DB.headlines.find():
+    for scrape in collection.find():
         count = 0
         for collectedheadlines in scrape['headlines']:
             if searchstring in collectedheadlines:

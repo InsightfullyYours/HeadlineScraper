@@ -35,7 +35,8 @@ def main():
         print('Scraping finished.')
         searchstring = input('Please enter the search string you want to search headlines for: ')
 
-        queryresult = ExtractHeadlines(DB, searchstring)
+        DBtable = DB.headlines
+        queryresult = ExtractHeadlines(DBtable, searchstring)
 
         print('The Headlines that match your search string are:')
     #    print(queryresult)
