@@ -1,3 +1,10 @@
+from urllib.request import urlopen
+from urllib.error import HTTPError
+import socket
+from bs4 import BeautifulSoup
+import datetime
+import re
+
 
 class WebScrapers(object):
     """
@@ -22,10 +29,6 @@ class WebScrapers(object):
     def OpenWebsite(self):
         # Connect to the url, download the html, and convert it into a
         # BeautifulSoup object
-        from urllib.request import urlopen
-        from urllib.error import HTTPError
-        import socket
-        from bs4 import BeautifulSoup
 
         # Connect to URL and extract HTML, with error catching
         try:
@@ -56,8 +59,6 @@ class WebScrapers(object):
 
     def NYTParse(self, bsObj):
         # Parse the New York Times website
-        import datetime
-        # from bs4 import BeautifulSoup
 
         # Extract all articles
         articleList = bsObj.findAll({'h1', 'h2', 'h3', 'h4'},
@@ -73,8 +74,6 @@ class WebScrapers(object):
 
     def FOXParse(self, bsObj):
         # Parse the Fox News website
-        import datetime
-        # from bs4 import BeautifulSoup
 
         # Extract all the articles
         articleList = bsObj.findAll({'li', 'h3', 'h2', 'h1'})
@@ -91,9 +90,6 @@ class WebScrapers(object):
 
     def CNNParse(self, bsObj):
         # Parse the MSNBC website
-        import datetime
-        # from bs4 import BeautifulSoup
-        import re
 
         # Extract all the articles
         # articleList = bsObj.findAll({'h3','h2','h1'})
@@ -116,8 +112,6 @@ class WebScrapers(object):
 
     def MSNBCParse(self, bsObj):
         # Parse the MSNBC website
-        import datetime
-        # from bs4 import BeautifulSoup
 
         # Extract all the articles
         articleList = bsObj.findAll({'a', 'h3', 'h2', 'h1'})
@@ -135,7 +129,3 @@ class WebScrapers(object):
 
         return {'site': 'MSNBC', 'scrapetime': datetime.datetime.now(),
                 'headlines': list(headline)}
-
-# test = OpenWebsite('http://www.nytimes.com')
-
-# print(test)

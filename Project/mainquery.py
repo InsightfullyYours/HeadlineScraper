@@ -1,3 +1,7 @@
+from .utilities import ExtractHeadlines
+import pandas as pd
+
+
 def mainquery(DBtable, searchstring):
     """
     This function runs a searchstring query on the database table.
@@ -9,8 +13,6 @@ def mainquery(DBtable, searchstring):
         df: a DataFrame with all the headlines and metadata that match the
             searchstring.
     """
-    from ..Project.utilities import ExtractHeadlines
-    import pandas as pd
 
     queryresult = ExtractHeadlines(DBtable, searchstring)
 

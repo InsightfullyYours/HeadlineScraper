@@ -14,17 +14,18 @@ Output:
 """
 
 
-def mainscript():
-    from ..Project.scrapedata import scrapedata
-    from ..Project.mainquery import mainquery
+# def mainscript():
+from Project.scrapedata import scrapedata
+from Project.mainquery import mainquery
 
-    DBurl = 'mongodb://localhost:27017/'
+DBurl = 'mongodb://localhost:27017/'
 
-    DB = scrapedata(DBurl)
+DB = scrapedata(DBurl)
 
-    searchstring = input('Please enter the search string: ')
+searchstring = input('Please enter the search string: ')
 
-    DBtable = DB.headlines
-    result = mainquery(DBtable, searchstring)
+DBtable = DB.headlines
+result = mainquery(DBtable, searchstring)
 
-    return result
+print(result)
+# return result

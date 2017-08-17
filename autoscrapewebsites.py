@@ -4,7 +4,9 @@ set to run automatically on a schedule within the operating system to build up
 the database.
 """
 
-from ..Project.scrapedata import scrapedata
+from Project.scrapedata import scrapedata
 
 DBurl = 'mongodb://localhost:27017/'
 DB = scrapedata(DBurl)
+
+print('Done Scraping Websites')

@@ -9,14 +9,13 @@ The utilities include:
         searches the database for matching headlines.  Returns all matches
         along with metadata.
     """
+import pymongo
+import time
+import subprocess
 
 
 def ConnectToDB(DBurl):
     # connect to MongoDB and throw error if unsuccessful
-    # import datetime
-    import pymongo
-    import time
-    import subprocess
 
     maxDelay = 1
     try:
@@ -37,7 +36,7 @@ def ConnectToDB(DBurl):
                 print('Error starting MongoDB: ' + str(err))
 
             try:
-                time.sleep(5)
+                time.sleep(.1)
                 client = pymongo.MongoClient(DBurl,
                                              serverSelectionTimeoutMS=maxDelay)
                 client.server_info()

@@ -1,3 +1,8 @@
+from .scrapers import WebScrapers
+from .utilities import ConnectToDB, InitializeDB
+import sys
+
+
 def scrapedata(DBurl):
     """
     This function is the main website scraper.  It scrapes the data from the
@@ -8,10 +13,6 @@ def scrapedata(DBurl):
     Output:
         DB: The constructed DB object
     """
-
-    from ..Project.scrapers import WebScrapers
-    from ..Project.utilities import ConnectToDB, InitializeDB
-    import sys
 
     client = ConnectToDB(DBurl)
 
@@ -32,8 +33,9 @@ def scrapedata(DBurl):
         data = foxnews.OpenWebsite()
         DB.headlines.insert_one(foxnews.FOXParse(data))
 
-        return DB
         # # Check CNN
         # cnn = WebScrapers('http://www.cnn.com/')
         # data = cnn.OpenWebsite()
         # poll_id = DB.headlines.insert_one(cnn.CNNParse(data))
+
+        return DB
