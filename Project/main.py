@@ -33,13 +33,13 @@ def main():
         # poll_id = DB.headlines.insert_one(cnn.CNNParse(data))
 
         print('Scraping finished.')
-        searchstring = input('Please enter the search string you want to search headlines for: ') # noqa
+        searchstring = input('Please enter the search string you want to search headlines for: ')
 
         queryresult = ExtractHeadlines(DB, searchstring)
 
         print('The Headlines that match your search string are:')
     #    print(queryresult)
 
-        df = pd.DataFrame.from_records(queryresult, columns=['Headline', 'Source', 'Scrape Timestamp']) # noqa
+        df = pd.DataFrame.from_records(queryresult, columns=['Headline', 'Source', 'Scrape Timestamp'])
 
         return df

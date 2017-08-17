@@ -15,7 +15,7 @@ def ConnectToDB(DBurl):
 
     maxSevSelDelay = 1
     try:
-        client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay) # noqa
+        client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay) 
         client.server_info()
         return client
     except pymongo.errors.ServerSelectionTimeoutError as err:
@@ -26,18 +26,18 @@ def ConnectToDB(DBurl):
             print('Connection attempt number: ' + str(numAttempts) + '/5')
             try:
                 print('Attempting to reconnect to database...')
-                subprocess.run('"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe" --dbpath "C:\\Users\\The Computer\\Documents\\Mongodb\\data"',shell=True, timeout = 10) # noqa
+                subprocess.run('"C:\\Program Files\\MongoDB\\Server\\3.4\\bin\\mongod.exe" --dbpath "C:\\Users\\The Computer\\Documents\\Mongodb\\data"',shell=True, timeout = 10)
             except subprocess.CalledProcessError as err:
                 print('Error starting MongoDB: ' + str(err))
 
             try:
                 time.sleep(5)
-                client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay) # noqa
+                client = pymongo.MongoClient(DBurl, serverSelectionTimeoutMS=maxSevSelDelay)
                 client.server_info()
-                print('New connection opened successfully on attempt number ' + str(numAttempts) + '/5') # noqa
+                print('New connection opened successfully on attempt number ' + str(numAttempts) + '/5')
                 return client
             except pymongo.errors.ServerSelectionTimeoutError as err:
-                print('DB Connection Failure after ' + str(numAttempts) + '/5' + ' attempts.  Check the server URL.') # noqa
+                print('DB Connection Failure after ' + str(numAttempts) + '/5' + ' attempts.  Check the server URL.')
 
 
 def InitializeDB(client, dbname):
@@ -53,6 +53,6 @@ def ExtractHeadlines(DB, searchstring):
         count = 0
         for collectedheadlines in scrape['headlines']:
             if searchstring in collectedheadlines:
-                searchresult.append([scrape['headlines'][count], scrape['site'], scrape['scrapetime']]) # noqa
+                searchresult.append([scrape['headlines'][count], scrape['site'], scrape['scrapetime']])
             count = count + 1
     return searchresult
