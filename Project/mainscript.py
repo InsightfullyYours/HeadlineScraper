@@ -7,7 +7,13 @@ the same events between sources.
 Every time this is run, it adds the scrapes to the database.  In this way
 the utilization of the function by users is what generates the database.
 
+Input: None
+Output:
+    result: a dataframe with all the results
+
 """
+
+
 def mainscript():
     from ..Project.scrapedata import scrapedata
     from ..Project.mainquery import mainquery
